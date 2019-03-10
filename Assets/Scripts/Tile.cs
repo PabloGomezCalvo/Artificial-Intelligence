@@ -9,9 +9,7 @@ public class Tile : MonoBehaviour
     LogicaTile _logicaTile;
 
     // Use this for initialization
-    void Start()
-    {
-    }
+
 
     public void ConstruyeCasilla(LogicaTile logicaTile)
     {

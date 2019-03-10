@@ -38,24 +38,7 @@ public class Tanke : MonoBehaviour
         GetComponent<SpriteRenderer>().sprite = spriteTanke;
     }
 
-    private void OnMouseDown()
-    {
-        if (GameManager.instance.GetSeleccionado() == ColorUnidad.ninguno && _logicaTanke.GetFlecha() == _logicaTanke.GetPos())
-        {
-            SpriteRenderer render = GetComponent<SpriteRenderer>();
-            render.sprite = _spriteTankeSeleccionado;
-
-            GameManager.instance.SetSeleccionado(_logicaTanke.GetTipoTanke(), this.gameObject);
-        }
-        else if(GameManager.instance.GetSeleccionado() != ColorUnidad.ninguno)
-        {
-            SpriteRenderer render = GetComponent<SpriteRenderer>();
-            render.sprite = _spriteTanke;
-
-            GameManager.instance.Deselecciona();
-        }
-
-    }
+   
 
     public void SetSpriteDeseleccionado()
     {
@@ -65,6 +48,13 @@ public class Tanke : MonoBehaviour
     public LogicaTanke GetLogicaTanke()
     {
         return _logicaTanke;
+    }
+    public void Mueve(List<Pos> camino)
+    {
+        if (camino != null)
+            StartCoroutine("AvanzaUnPaso", camino);
+        else
+            QuitaFlecha();
     }
 
 
@@ -99,6 +89,7 @@ public class Tanke : MonoBehaviour
 
     }
 
+
     public void DisplayPath(List<Pos> camino)
     {
         
@@ -111,13 +102,7 @@ public class Tanke : MonoBehaviour
 
     }
 
-    public void Mueve(List<Pos> camino)
-    {
-        if (camino != null)
-            StartCoroutine("AvanzaUnPaso", camino);
-        else
-            QuitaFlecha();
-    }
+ 
 
     IEnumerator AvanzaUnPaso(List<Pos> camino)
     {
@@ -160,5 +145,24 @@ public class Tanke : MonoBehaviour
         _logicaTanke.SetFlecha(_logicaTanke.GetPos());
         _flecha.SetActive(false);
         _flecha.transform.position = new Vector3(_logicaTanke.GetPos().GetX() * GameManager.Distancia, -_logicaTanke.GetPos().GetY() * GameManager.Distancia, 0);
+    }
+
+    private void OnMouseDown()
+    {
+        if (GameManager.instance.GetSeleccionado() == ColorUnidad.ninguno && _logicaTanke.GetFlecha() == _logicaTanke.GetPos())
+        {
+            SpriteRenderer render = GetComponent<SpriteRenderer>();
+            render.sprite = _spriteTankeSeleccionado;
+
+            GameManager.instance.SetSeleccionado(_logicaTanke.GetTipoTanke(), this.gameObject);
+        }
+        else if (GameManager.instance.GetSeleccionado() != ColorUnidad.ninguno)
+        {
+            SpriteRenderer render = GetComponent<SpriteRenderer>();
+            render.sprite = _spriteTanke;
+
+            GameManager.instance.Deselecciona();
+        }
+
     }
 }

@@ -10,16 +10,15 @@ public class GameManager : MonoBehaviour
 
 
     public Text textoReloj;
-    public const int Ancho = 13;
-    public const int Alto = 10;
-    public const int WorldSize = Alto * Ancho;
+    public static int Ancho = 13;
+    public static int Alto = 10;
+    public static int WorldSize = Alto * Ancho;
     LogicaTablero _logicaTablero;
 
     public const float Distancia = 0.64f;
 
-    //--------ATRIBUTOS--------
-
     ColorUnidad _seleccionado;
+
     public GameObject tilePrefab;
     public GameObject personajePrefab;
     public GameObject flechaPrefab;
@@ -35,11 +34,7 @@ public class GameManager : MonoBehaviour
 
     public Sprite spriteFlecha;
 
-
-
     public int mode;
-
-    //--------ATRIBUTOS--------
 
     GameObject _personajeSeleccionado;
 
@@ -59,7 +54,6 @@ public class GameManager : MonoBehaviour
 
     //---------------CONSTRUCCIÓN TILES------------------------
 
-    //Pasa la representación lógica del tablero (matriz) a la representación física (gameobjects)
     void colocaTablero()
     {
         GameObject GOTablero = new GameObject("Tablero");
@@ -105,26 +99,15 @@ public class GameManager : MonoBehaviour
 
     //---------------CONSTRUCCIÓN UNIDADES------------------------
 
-    void ConstruyeUnidades()
-    {
-        Pos[] pos = new Pos[1];
-
-        for (int i = 0; i < 1; i++)
-            pos[i] = new Pos(-1, -1);
-
-        CreaPersonaje("Personaje", ColorUnidad.rojo, spritePersonaje, spritePersonajeSeleccionado, spriteFlecha, ref pos);
-
-    }
-
     void CreaPersonaje(string nombre, ColorUnidad tipo, Sprite spritePersonaje, Sprite spritePersonajeSeleccionado, Sprite spriteFlecha, ref Pos[] pos)
     {
-        Pos posAux = new Pos(Random.Range(0, 10), Random.Range(0, 10));
+        Pos posAux = new Pos(Random.Range(0, Ancho), Random.Range(0, Alto));
 
         bool haypj = HayPJ(posAux, pos);
 
         while (_logicaTablero.GetLogicaTile(posAux).GetTerreno() == Terreno.muro || haypj)
         {
-            posAux = new Pos(Random.Range(0, 10), Random.Range(0, 10));
+            posAux = new Pos(Random.Range(0, Ancho), Random.Range(0, Alto));
             haypj = HayPJ(posAux, pos);
 
         }
@@ -141,6 +124,18 @@ public class GameManager : MonoBehaviour
 
         pj.GetComponent<Tanke>().ConstruyeTanke(logicaTanke, spritePersonaje, spritePersonajeSeleccionado, flecha);
     }
+    void ConstruyeUnidades()
+    {
+        Pos[] pos = new Pos[1];
+
+        for (int i = 0; i < 1; i++)
+            pos[i] = new Pos(-1, -1);
+
+        CreaPersonaje("Personaje", ColorUnidad.rojo, spritePersonaje, spritePersonajeSeleccionado, spriteFlecha, ref pos);
+
+    }
+
+
     //Comprueba si hay un PJ en una posición
     bool HayPJ(Pos pos, Pos[] posPJs)
     {
@@ -156,7 +151,6 @@ public class GameManager : MonoBehaviour
         return haypj;
     }
 
-    //---------------CONSTRUCCIÓN UNIDADES------------------------
 
 
     public ColorUnidad GetSeleccionado() { return _seleccionado; }
@@ -230,5 +224,54 @@ public class GameManager : MonoBehaviour
         colocaTablero();
         _seleccionado = ColorUnidad.ninguno;
         ConstruyeUnidades();
+    }
+
+    public void mapa5x5()
+    {
+        Alto = Ancho = 5;
+        WorldSize = Alto * Ancho;
+        Destroy(GameObject.Find("Tablero"));
+        Destroy(GameObject.Find("Personaje"));
+        Destroy(GameObject.Find("Flecha(Clone)"));
+        _personajeSeleccionado = null;
+        _logicaTablero = new LogicaTablero(Alto, Ancho, true);
+        colocaTablero();
+        _seleccionado = ColorUnidad.ninguno;
+        ConstruyeUnidades();
+    }
+
+    public void mapa5x10()
+    {
+        Alto = 5;
+        Ancho = 10;
+        WorldSize = Alto * Ancho;
+        Destroy(GameObject.Find("Tablero"));
+        Destroy(GameObject.Find("Personaje"));
+        Destroy(GameObject.Find("Flecha(Clone)"));
+        _personajeSeleccionado = null;
+        _logicaTablero = new LogicaTablero(Alto, Ancho, true);
+        colocaTablero();
+        _seleccionado = ColorUnidad.ninguno;
+        ConstruyeUnidades();
+    }
+
+    public void mapa8x13()
+    {
+        Alto = 8;
+        Ancho = 13;
+        WorldSize = Alto * Ancho;
+        Destroy(GameObject.Find("Tablero"));
+        Destroy(GameObject.Find("Personaje"));
+        Destroy(GameObject.Find("Flecha(Clone)"));
+        _personajeSeleccionado = null;
+        _logicaTablero = new LogicaTablero(Alto, Ancho, true);
+        colocaTablero();
+        _seleccionado = ColorUnidad.ninguno;
+        ConstruyeUnidades();
+    }
+
+    public void salir()
+    {
+        Application.Quit();
     }
 }

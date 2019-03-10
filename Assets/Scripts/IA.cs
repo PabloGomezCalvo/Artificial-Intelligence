@@ -54,11 +54,7 @@ public class Nodo
 }
 
 public class AEstrella
-{
-    //Atributos
-
-    //Empty si no hay camino posible
-    public List<Pos> GetCamino()
+{    public List<Pos> GetCamino()
     {
         return _camino;
     }
@@ -69,7 +65,7 @@ public class AEstrella
 
     List<Pos> _camino;
 
-    //Máximo número de tiles por los que se puede mover el barco. Si es mayor que este número esta bloqueado
+    //Si es mayor que este número, esta bloqueado
     const int maxWalkableTileNum = 2;
 
 
@@ -102,24 +98,26 @@ public class AEstrella
         return sol;
     }
 
-    //Devuelve el coste del terreno al que se mueve el barco
     int calculateK(int i)
     {
         int k = 0;
         switch (k)
         {
-            case 0:
+            case 0: //libre
                 k = 1;
                 break;
-            case 1:
+            case 1: //agua
                 k = 2;
                 break;
-            case 2:
+            case 2: //barro
                 k = 4;
+                break;
+            case 3: //roca
+                k = 64000;
                 break;
         }
 
-        return 1;
+        return k;
     }
 
     //Devuelve los nodos adyacentes a los que se puede avanzar
@@ -144,7 +142,6 @@ public class AEstrella
         return adyacentes;
     }
 
-    //Comprueba si el barco se puede mover a una posición determinada
     bool CanWalkHere(int x, int y)
     {
         return ((int)_world[y, x].GetTerreno() <= maxWalkableTileNum);

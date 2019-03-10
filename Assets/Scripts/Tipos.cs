@@ -3,11 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-//--------TIPOS---------
-public enum Terreno { libre,agua, cienaga, muro, vacio };
+public enum Terreno { libre,agua, cienaga, muro };
 public enum Direccion { arriba, abajo, izquierda, derecha, idle };
+public enum ColorUnidad { rojo, ninguno };
 
-//Origen
 public class Pos
 {
     public Pos(int x, int y)
@@ -42,7 +41,6 @@ public class Pos
     }
 }
 
-public enum ColorUnidad { rojo, ninguno };
 
 
-//--------TIPOS---------
+

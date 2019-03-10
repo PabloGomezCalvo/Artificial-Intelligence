@@ -12,7 +12,7 @@ public class LogicaTile
     public LogicaTile()
     {
         _pos = new Pos(0, 0);
-        _terreno = Terreno.vacio;
+        _terreno = Terreno.libre;
     }
 
     public LogicaTile(Terreno terreno, Pos pos)
